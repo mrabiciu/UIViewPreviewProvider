@@ -48,6 +48,6 @@ It should look something like this:
 ![screenshot](https://i.imgur.com/lOK0tiB.jpg)
 
 ## Examples
-See `Example.swift` for more info.
+See [`Example.swift`](https://github.com/mrabiciu/UIViewPreviewProvider/blob/master/Example/Sources/Examples/Example.swift) for more info.
 
-If you're using MVVM see `MVVM Example.swift` to see how you can generate previews directly from your ViewModels.
+If you're using MVVM see [`MVVM Example.swift`](https://github.com/mrabiciu/UIViewPreviewProvider/blob/master/Example/Sources/Examples/MVVM%20Example.swift) to see how you can generate previews directly from your ViewModels.
