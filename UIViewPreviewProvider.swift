@@ -48,6 +48,9 @@ public protocol UIViewPreviewProvider {
     
     /// Array of `Preview` to be displayed in the Xcode canvas  pane `(⌥ + ⌘ + return)`
     static var uiPreviews: [Preview] { get }
+    
+    /// `ColorScheme` to be used in the Xcode canvas pane
+    static var colorScheme: ColorScheme { get }
 }
 
 // MARK: UIViewPreviewProvider + PreviewProvider
@@ -100,6 +103,7 @@ extension UIViewPreviewProvider {
         
         return ForEach(identifiablePreviews) { preview in
             swiftUIView(from: preview.item)
+                .environment(\.colorScheme, colorScheme)
         }
     }
 }
