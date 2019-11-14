@@ -50,6 +50,7 @@ public protocol UIViewPreviewProvider {
     static var uiPreviews: [Preview] { get }
     
     /// `ColorScheme` to be used in the Xcode canvas pane
+    @available(iOS 13.0, *)
     static var colorScheme: ColorScheme { get }
 }
 
