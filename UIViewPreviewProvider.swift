@@ -74,8 +74,12 @@ extension UIViewPreviewProvider {
         case .fixedWidth(let width):
             var compressedSize = UIView.layoutFittingCompressedSize
             compressedSize.width = width
-            let height = preview.view.systemLayoutSizeFitting(compressedSize).height
-            return CGSize(width: width, height: height)
+            let previewSize = preview.view.systemLayoutSizeFitting(
+                compressedSize,
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+            return previewSize
             
         case .fixed(let fixedSize):
             return fixedSize
