@@ -51,13 +51,18 @@ public protocol UIViewPreviewProvider {
     
     /// `ColorScheme` to be used in the Xcode canvas pane
     @available(iOS 13.0, *)
-    static var colorScheme: ColorScheme { get }
+    static var colorSchemes: [ColorScheme] { get }
 }
 
 // MARK: UIViewPreviewProvider + PreviewProvider
 
 @available(iOS 13, *)
 extension UIViewPreviewProvider {
+    
+    /// Default color schemes
+    public static var colorSchemes: [ColorScheme] {
+        [.light, .dark]
+    }
     
     /// Calculates the size we apply to the view
     private static func size(for preview: Preview) -> CGSize {
@@ -78,7 +83,7 @@ extension UIViewPreviewProvider {
     }
     
     /// Converts a Preview to a SwiftUI View
-    static func swiftUIView(from preview: Preview) -> some View {
+    static func swiftUIView(from preview: Preview, scheme colorScheme: ColorScheme) -> some View {
         
         let size = self.size(for: preview)
 
@@ -92,7 +97,8 @@ extension UIViewPreviewProvider {
                     height: size.height
                 )
             )
-            .previewDisplayName(preview.displayName)
+            .previewDisplayName("\(preview.displayName ?? "") [\(colorScheme)]")
+            .environment(\.colorScheme, colorScheme)
     }
     
     /// Allows us to automatically conform to `PreviewProvider`
@@ -102,9 +108,14 @@ extension UIViewPreviewProvider {
             IdentifiableBox($0)
         }
         
+        let identifieableSchemes = colorSchemes.map {
+            IdentifiableBox($0)
+        }
+        
         return ForEach(identifiablePreviews) { preview in
-            swiftUIView(from: preview.item)
-                .environment(\.colorScheme, colorScheme)
+            ForEach(identifieableSchemes) { scheme in
+                swiftUIView(from: preview.item, scheme: scheme.item)
+            }
         }
     }
 }
